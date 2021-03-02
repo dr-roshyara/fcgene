@@ -1,0 +1,145 @@
+||============================================================================||
+# **Program : fcGENE**
+Version: 1.0.7
+***Aims :**
+1.To perform snp-wise and individual-wise quality control. 
+2.To convert plink format data (with or without excluding 
+  low-quality SNPs) to any imputation tool and then to convert back 
+  the imputation results into different formats. 
+3.To generate templates of imputation command scripts used 
+  by the preferred imputation tool.
+4.To filter imputed SNPs by using a threshold of different
+  imputation quality measures. 
+5.To convert imputation results of any imputation tools:
+ (MaCH, IMPUTE, BEAGLE, BIMBAM) into input files of software like:
+  SNPTEST, HAPLOVIEW, EIGENSOFT and GenABEL,
+  -VCF, 
+   -genotype data with count of allele   
+   -genotype data with allele-dose
+6.To transform genotype data from the format of one imputation tool
+   to another. 
+7.To convert imputation-reference panel into plink formatted 
+  genotyped SNP data  and other formats and to calculate quality measures.
+8.To perform data management like: merging and splitting of two or more than two genotype 
+  data, and exclusion of SNPs and individuals.
+||============================================================================||
+Copyright: 	GNU General Public License
+Program Developer: 
+	Dr. Nab Raj Roshyara        
+	email: roshyara@gmail.com       
+	Universitaet Leipzig            
+	Leipzig Research Center for Civilization Diseases(LIFE)
+	Institute for Medical Informatics, Statistics and 
+	Epidemiology (IMISE)
+	group: Genetical Statistics and Systems Biology 
+	Group Leader: Prof.Dr. Markus Scholz
+	Contact Email: markus.scholz@imise.uni-leipzig.de  
+||============================================================================||
+###########################################
+Use of pre-compiled version of the program: 
+###########################################
+1.	To use in Windows system:
+	*-> Download  from 
+		http://sourceforge.net/projects/fcgene/files/fcgene-1.0.7.tar.gz/download 
+		and and decompress to get fcgene-1.0.7 directory.	
+	*-> Open  command promt (cmd.exe). 
+	*->Go the directory of fcgene-1.0.7 with command ``cd fcgene-1.0.7''.
+	*-> copy the from fcgene.exe to your working directopy with command 
+	"cp fcgene.exe working_directory" 
+	and start to use fcgene.exe program
+2.	To use in Linux system:
+	*->Open  Linux console. 
+	*->Use the following command to download: 
+	wget http://sourceforge.net/projects/fcgene/files/fcgene-1.0.7.tar.gz/download
+	*->To unpack use command : ``tar -zxvf fcgene-1.0.7.tar.gz''. 
+	*->Go the directory of fcgene-1.0.7 with command ``cd fcgene-1.0.7''.
+	*->If you want to use static version of the program, type command :
+		``mv fcgene\_static  fcgene'', 
+   	*->For the dynamic version type  command: ``mv fcgene\_dynamic  fcgene''.  
+
+#############################
+Compilation of the program: 
+#############################
+1. Download the latest version of fcGENE and its pdf documentation file.
+2. For Linux users:
+	*->Open Linux console
+	*->Use the following command to download: 
+	wget http://sourceforge.net/projects/fcgene/files/fcgene-1.0.7.tar.gz/download
+	*->To unpack use command : ``tar -zxvf fcgene-1.0.7.tar.gz''. 
+	*->Go the directory of fcgene-1.0.7 with command ``cd fcgene-1.0.7''.
+	*->Execute the commands: 
+	 1. ./configure #(type `` ./configure'' and press <enter>). 
+	 2. make   	#(type `` make'' and press <enter>). 
+	 3. sudo make install  
+		#( If you want to install the program in your system)
+	 4. fcgene
+	 5. make clean #(To delete *.o files and *gch files from folder src)  
+	*-> If you don't want to install, you can copy ``fcgene'' from src folder to your working directory using 
+	  ``cp src/fcgene  working\_directoy/.''. 
+	*->Start using fcGENE commands as mentioned in  fcGENE-documentation file.
+	*->If you get a problem(something like  error: cannot find install-sh or install.sh in 
+		)when using command "./configure", then  excute the command: 
+	 "automake --add-missing --copy".
+	 while using this command, you may get error but don't worry. 
+	The necessary script  "install-sh" script is already created. Now type again 
+	"./configure", "make" , "sudo make install" and finally "fcgene" . 
+	 (If you dont have automake program, this can be installed with the command 
+	"apt-get install automake".)   
+3.  For Windows users:
+	*->Download and install MINGW program from http://www.mingw.org/,
+	 if this is not installed on your computer.
+	*->Open mSys console installed together with MINGW program
+	*-> Download and decompress fcgene-1.0.7 from 
+	http://sourceforge.net/projects/fcgene/files/fcgene-1.0.7.tar.gz/download 
+	*->Go the directory of fcgene-1.0.7 with command ``cd fcgene-1.0.7''.
+	*->Execute the command: 
+		`` ./configure'' (type `` ./configure'' and press enter). 
+	*->Execute the command: 
+	``make'' (type `` make'' and press enter). 
+	 Copy ``fcgene'' from src folder to your working directory using 
+	  ``cp src/fcgene  wording\_directoy/.''. 
+	*->Type 'make clean' to delete *.o and *.gch types of files.
+	*->Start using fcGENE commands as mentioned in  fcGENE-documentation file.
+	 is to use fcGENE in "R-commands".
+	 For this put fcgene.exe file in the working directory.
+	 Then you can execute fcGENE by using R-command option: 
+	 "system". An example of how to use fcGENE under R, is given below.
+	 system("./fcgene --ped example.ped --map example.map")
+4.  If you have a compilation error something like:
+		/usr/bin/ld: cannot find -lm
+		collect2: ld returned 1 exit status
+		make: *** [fcGENE] Error 1,
+	then it may be that you do not posses  dynamic math-library and/or glibc-dynamic library
+	which is used for linking c ro c++ files dynamically.
+	*->The solution is to compile statically
+5.  If you want that fcGENE reads and writes gezipped file ,then either use 
+	pre-compiled version of fcGENE or make sure that you have zlib library 
+	before you compile and install the program.
+
+6.  For static compilation: 
+	Instead of using just "make" in linux command line, type: 
+	make AC_CFLAGS1='-static'
+	in the linux-command line and <ENTER>. 
+	#Command "make CFLAGS1='-static'" will compile 
+	the program statistically.
+#####################################
+How to start the program
+#####################################
+	*->If you have installed fcGENE in your system,then use 
+	``fcgene'' 	to start the program (without ./ i.e. type ``fcgene'' and <ENTER>). 
+	*->If the program is not installed and you have copied the program 
+	 in your current working directory, then use:
+	 ``./fcgene'' 	
+	*->In this manual, I  have always used ``./fcgene'' while explaining the different commands of fcGENE.
+	 *->If you have installed the program in your  system with sudo make install then 
+	 use ``fcgene'' only. 
+	*->``./'' means  the executable program ``fcgene'' is contained in the current working directory. 
+	 If you don't have executable "fcgene" in your 	current directory and you use ./fcgene, it won't work. 
+	 At such a case just use "fcgene ...".
+ 
+	Remark: Currently I am updating the program very often.Therefore, before using the program, 
+	please look once again at fcGENE's sourceforge  homepage if anything is updated.
+	||============================================================================================||
+	
+	
+

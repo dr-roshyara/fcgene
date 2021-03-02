@@ -1,0 +1,61 @@
+# @configure_input@
+
+# Package-related substitution variables
+package        = @PACKAGE_NAME@
+version        = @PACKAGE_VERSION@
+tarname        = @PACKAGE_TARNAME@
+distdir        = $(tarname)-$(version)
+
+# Prefix-related substitution variables
+prefix         = @prefix@
+exec_prefix    = @exec_prefix@
+bindir         = @bindir@
+
+# Tool-related substitution variables
+#AC_CXX          = @AC_CXX@
+#AC_CFLAGS       = @AC_CFLAGS@
+#AC_CPPFLAGS    = @AC_CPPFLAGS@
+AC_LDFLAGS      = $(AC_CFLAGS1) @AC_LDFLAGS@   
+
+AC_OBJS		=fcgene.o fcgene1.o argcv.o helper.o bpar.o cparse.o  \
+				machdat.o machped.o machped1.o minimac.o\
+				plinksnp.o plinkped.o readimpute.o beagle.o\
+				bimbam.o general.o rformat.o\
+				haploview.o smartpca.o genable.o matrix_def.o \
+				zfstream.o  gz_stream.o vcf.o vcf_header.o
+AC_BIN		=fcgene 
+all:		$(AC_BIN)
+		
+$(AC_BIN):	$(AC_OBJS)
+			$(AC_CXX)  -o   $(AC_BIN) $(AC_OBJS)  $(AC_LDFLAGS) 
+			
+%.o:		%.cpp %.h
+			$(AC_CXX) $(AC_CFLAGS)  $< 
+
+Makefile: Makefile.in ../config.status
+			cd .. && ./config.status $@
+
+../config.status: ../configure
+			cd .. && ./config.status --recheck
+
+
+
+clean:
+		#$$(cp fcgene  ../.)
+		-rm fcgene *.o *.gch  $@ &>/dev/null
+	 
+	
+	 
+check: all
+	 #chmod 755 fcgene 
+	 #./fcgene 
+	@echo "*** All TESTS PASSED"
+
+install:
+	install -d $(DESTDIR)$(bindir)
+	install -m 0755 fcgene $(DESTDIR)$(bindir)
+
+uninstall:
+	-rm $(DESTDIR)$(bindir)/fcgene &>/dev/null
+
+.PHONY: all clean check install uninstall
